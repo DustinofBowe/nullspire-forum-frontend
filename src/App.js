@@ -60,3 +60,36 @@ function App() {
     <div style={{ maxWidth: 900, margin: 'auto', padding: 20, fontFamily: 'Arial, sans-serif' }}>
       <header style={{ marginBottom: 20 }}>
         <h1>NullSpire Fan Forum</h1>
+        <nav style={{ marginBottom: 10 }}>
+          <Link to="/" style={{ marginRight: 10 }}>Home</Link>
+          {user.email ? (
+            <>
+              <span>Welcome, {user.email}!</span>
+              <button onClick={logout} style={{ marginLeft: 10 }}>Logout</button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" style={{ marginRight: 10 }}>Login</Link>
+              <Link to="/signup">Sign Up</Link>
+            </>
+          )}
+        </nav>
+      </header>
+
+      {loadingCategories ? (
+        <p>Loading categories...</p>
+      ) : (
+        <Routes>
+          <Route path="/" element={<CategoryList categories={categories} />} />
+          <Route path="/category/:id" element={<CategoryPage user={user} />} />
+          <Route path="/post/:id" element={<PostPage user={user} />} />
+          <Route path="/login" element={<LoginPage setUser={setUser} />} />
+          <Route path="/signup" element={<SignupPage setUser={setUser} />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      )}
+    </div>
+  );
+}
+
+export default App;
